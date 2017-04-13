@@ -9,11 +9,11 @@
 
       <div class="panel-body">
         <%= f.field_container :stores, :class => ["form-group"] do %>
-          <% product_stores = @product.stores.to_a %>
+          <% shipping_method_stores = @shipping_method.stores.to_a %>
           <% Spree::Store.all.each do |store| %>
             <div class="checkbox">
               <%= label_tag do %>
-                <%= check_box_tag("product[stores][]", store.id, product_stores.include?(store)) %>
+                <%= check_box_tag("shipping_method[stores][]", store.id, shipping_method_stores.include?(store)) %>
                 <%= store.name %>
               <% end %>
             </div>

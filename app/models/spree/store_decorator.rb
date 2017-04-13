@@ -1,5 +1,6 @@
 module Spree
   Store.class_eval do
+
     has_and_belongs_to_many :products, join_table: 'spree_products_stores'
     has_many :taxonomies
     has_many :orders
@@ -21,6 +22,11 @@ module Spree
 
     if respond_to? :logo_file_name
       validates_attachment_file_name :logo, matches: [/png\Z/i, /jpe?g\Z/i]
+    end
+
+    def self.current(store_code = nil)
+      current_store = store_code ? Spree::Store.where(:code => store_code).first : nil
+      current_store || Spree::Store.default
     end
 
   end

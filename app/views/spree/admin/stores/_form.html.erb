@@ -41,6 +41,21 @@
         <% end %>
       </div>
 
+      <div data-hook="requires_authentication" class="form-group">
+        <strong><%= Spree.t(:requires_authentication) %></strong>
+
+        <div class="radio">
+          <%= f.label :requires_authentication, Spree.t(:requires_authentication) do %>
+            <%= f.radio_button :requires_authentication, "true" %>
+            <%= Spree.t(:say_yes) %>
+          <% end %>
+          <%= f.label :requires_authentication, Spree.t(:requires_authentication) do %>
+            <%= f.radio_button :requires_authentication, "false" %>
+            <%= Spree.t(:say_no) %>
+          <% end %>
+        </div>
+      </div>
+
       <div data-hook="url">
         <%= f.field_container :url, class: ['form-group'] do %>
           <%= f.label :url, Spree.t(:domains) %><br />
