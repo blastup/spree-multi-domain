@@ -20,6 +20,8 @@ module Spree
       path: 'stores/:id/:style/:basename.:extension',
       convert_options: { all: '-strip -auto-orient' }
 
+    after_create :associate_with_products
+
     if respond_to? :logo_file_name
       validates_attachment_file_name :logo, matches: [/png\Z/i, /jpe?g\Z/i]
     end
@@ -28,6 +30,13 @@ module Spree
       current_store = store_code ? Spree::Store.where(:code => store_code).first : nil
       current_store || Spree::Store.default
     end
+
+    private
+      def associate_with_products
+        Spree::Product.all.each do |p|
+          p.stores << self
+        end
+      end
 
   end
 end
