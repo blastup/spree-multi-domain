@@ -21,6 +21,9 @@ module Spree
       convert_options: { all: '-strip -auto-orient' }
 
     after_create :associate_with_products
+    before_create :create_extra_settings
+
+    serialize :extra_settings
 
     if respond_to? :logo_file_name
       validates_attachment_file_name :logo, matches: [/png\Z/i, /jpe?g\Z/i]
@@ -36,6 +39,10 @@ module Spree
         Spree::Product.all.each do |p|
           p.stores << self
         end
+      end
+
+      def create_extra_settings
+        self.extra_settings = {}
       end
 
   end

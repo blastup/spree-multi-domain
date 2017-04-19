@@ -10,6 +10,14 @@
         <% end %>
       </div>
 
+      <div data-hook="url">
+        <%= f.field_container :url, class: ['form-group'] do %>
+          <%= f.label :url, Spree.t(:site_url) %><br />
+          <%= f.text_field :url, class: 'form-control' %>
+          <%= error_message_on :store, :url %>
+        <% end %>
+      </div>
+
       <div data-hook="code">
         <%= f.field_container :code, class: ['form-group'] do %>
           <%= f.label :code, Spree.t(:store_code) %><br />
@@ -33,14 +41,6 @@
         </div>
       </div>
 
-      <div data-hook="mail_form_address">
-        <%= f.field_container :mail_from_address, class: ['form-group'] do %>
-          <%= f.label :mail_from_address, Spree.t(:send_mails_as) %><br />
-          <%= f.text_field :mail_from_address, class: 'form-control' %>
-          <%= error_message_on :store, :mail_from_address %>
-        <% end %>
-      </div>
-
       <div data-hook="requires_authentication" class="form-group">
         <strong><%= Spree.t(:requires_authentication) %></strong>
 
@@ -56,22 +56,146 @@
         </div>
       </div>
 
-      <div data-hook="url">
-        <%= f.field_container :url, class: ['form-group'] do %>
-          <%= f.label :url, Spree.t(:domains) %><br />
-          <%= f.text_area :url, cols: 60, rows: 4, class: 'form-control' %>
-          <%= error_message_on :store, :url %>
-        <% end %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= t(:mailchimp_mandrill)%></h1>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-group" data-hook="admin_general_setting_mailchimp_api_key">
+            <%= label_tag "store[extra_settings][mailchimp_api_key]", t(:mailchimp_api_key) %><br>
+            <%= text_field_tag "store[extra_settings][mailchimp_api_key]", @store.extra_settings ? @store.extra_settings[:mailchimp_api_key] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_mailchimp_list">
+            <%= label_tag "store[extra_settings][mailchimp_list]", t(:mailchimp_list) %><br>
+            <%= text_field_tag "store[extra_settings][mailchimp_list]", @store.extra_settings ? @store.extra_settings[:mailchimp_list] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_mandrill_api_key">
+            <%= label_tag  "store[extra_settings][mandrill_api_key]", t(:mandrill_api_key) %><br>
+            <%= text_field_tag "store[extra_settings][mandrill_api_key]", @store.extra_settings ? @store.extra_settings[:mandrill_api_key] : "", :class => 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= t(:ui_settings)%></h1>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-group">
+            <%= label_tag "store[extra_settings][header_menu_id]", t(:header_menu) %><br>
+            <%= select_tag "store[extra_settings][header_menu_id]", options_for_select([['No header menu', '', :selected => (@store.extra_settings ? @store.extra_settings[:header_menu_id] : '') == '']] + 
+              Spree::Taxonomy.all.map { |t| [t.name, t.id.to_s, :selected => (@store.extra_settings ? @store.extra_settings[:header_menu_id] : '') == t.id.to_s] }), { :class => "select2", :style => "width: 300px;" } %>
+          </div>
+          <div class="form-group">
+            <%= label_tag "store[extra_settings][footer_menu_id]", t(:footer_menu) %><br>
+            <%= select_tag "store[extra_settings][footer_menu_id]", options_for_select([['No footer menu', '', :selected => (@store.extra_settings ? @store.extra_settings[:footer_menu_id] : '') == '']] + 
+              Spree::Taxonomy.all.map { |t| [t.name, t.id.to_s, :selected => (@store.extra_settings ? @store.extra_settings[:footer_menu_id] : '') == t.id.to_s] }), { :class => "select2", :style => "width: 300px;" } %>
+          </div>
+          <div class="form-group">
+            <%= label_tag "store[extra_settings][login_slider_location_id]", t(:login_slider_location) %><br>
+            <%= select_tag "store[extra_settings][login_slider_location_id]", options_for_select([['No slider', '', :selected => (@store.extra_settings ? @store.extra_settings[:login_slider_location_id] : '') == '']] + 
+              Spree::SlideLocation.all.map { |p| [p.name, p.id.to_s, :selected => (@store.extra_settings ? @store.extra_settings[:login_slider_location_id] : '') == p.id.to_s] }), { :class => "select2", :style => "width: 300px;" } %>
+          </div>
+          <div class="form-group" data-hook="admin_general_setting_product_image">
+            <label for="product_image">Products List Top Image</label><br>
+            <%= file_field_tag "store[product_image]" %>
+          </div>
+          <% product_image = (@store && @store.code) ? Spree::Image.where(:alt => @store.code + "~generic_product_top_image").first : nil  %>
+          <% if product_image %>
+            <div class="product-top-image-wrapper">
+              <%= image_tag product_image.attachment.url(:small), {:id => "product_top_image"} %>
+
+              <%= hidden_field_tag "remove_product_top_image", "" %>
+              <%= button Spree.t('actions.remove'), 'remove', "button", {:class => "product-top-image-remove"} %>
+            </div>
+          <% end %>
+          <div class="form-group" data-hook="admin_general_setting_product_header_theme">
+            <label for="product_header_theme">Products List Header Theme</label><br>
+            <input type="radio" value="colored" <%= ((@store.extra_settings && @store.extra_settings[:products_header_theme] == "colored") || (@store.extra_settings && @store.extra_settings[:products_header_theme] == "")) ? "checked" : "" %> name="store[extra_settings][products_header_theme]" id="products_theme_colored">
+            <label for="products_theme_colored">Colored</label><br>
+            <input type="radio" value="transparent" <%= (@store.extra_settings && @store.extra_settings[:products_header_theme] == "transparent") ? "checked" : "" %> name="store[extra_settings][products_header_theme]" id="products_theme_transparent">
+            <label for="products_theme_transparent">Transparent</label>
+          </div>
+        </div>
       </div>
     </div>
 
     <div data-hook="admin_store_form_fields_right" class="col-md-6">
-      <div data-hook="logo">
-        <%= image_tag @store.logo %>
-        <%= f.field_container :logo, class: ['form-group'] do %>
-          <%= f.label :logo, Spree.t(:logo) %><br />
-          <%= f.file_field :logo %>
-          <%= error_message_on :store, :logo %>
+      <div data-hook="seo_title">
+        <%= f.field_container :seo_title, class: ['form-group'] do %>
+          <%= f.label :seo_title, Spree.t(:seo_title) %><br />
+          <%= f.text_field :seo_title, class: 'form-control' %>
+          <%= error_message_on :store, :seo_title %>
+        <% end %>
+      </div>
+
+      <div data-hook="mail_form_address">
+        <%= f.field_container :mail_from_address, class: ['form-group'] do %>
+          <%= f.label :mail_from_address, Spree.t(:send_mails_as) %><br />
+          <%= f.text_field :mail_from_address, class: 'form-control' %>
+          <%= error_message_on :store, :mail_from_address %>
+        <% end %>
+      </div>
+
+      <div data-hook="meta_keywords">
+        <%= f.field_container :meta_keywords, class: ['form-group'] do %>
+          <%= f.label :meta_keywords, Spree.t(:meta_keywords) %><br />
+          <%= f.text_field :meta_keywords, class: 'form-control' %>
+          <%= error_message_on :store, :meta_keywords %>
+        <% end %>
+      </div>
+
+      <div data-hook="meta_description">
+        <%= f.field_container :meta_description, class: ['form-group'] do %>
+          <%= f.label :meta_description, Spree.t(:meta_description) %><br />
+          <%= f.text_field :meta_description, class: 'form-control' %>
+          <%= error_message_on :store, :meta_description %>
+        <% end %>
+      </div>
+
+     <!-- <div data-hook="logo"> -->
+        <%#= image_tag @store.logo %>
+        <%#= f.field_container :logo, class: ['form-group'] do %>
+          <%#= f.label :logo, Spree.t(:logo) %><br />
+          <%#= f.file_field :logo %>
+          <%#= error_message_on :store, :logo %>
+        <%# end %>
+      <!-- </div> -->
+
+      <div class="panel panel-default" style="margin-top: 42px;">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= t(:cloudflare_settings)%></h1>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-group" data-hook="admin_general_setting_cloudflare_email">
+            <%= label_tag "store[extra_settings][cloudflare_email]", t(:cloudflare_email) %><br>
+            <%= text_field_tag "store[extra_settings][cloudflare_email]", @store.extra_settings ? @store.extra_settings[:cloudflare_email] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_cloudflare_api_key">
+            <%= label_tag "store[extra_settings][cloudflare_api_key]", t(:cloudflare_api_key) %><br>
+            <%= text_field_tag "store[extra_settings][cloudflare_api_key]", @store.extra_settings ? @store.extra_settings[:cloudflare_api_key] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_cloudflare_zone_id">
+            <%= label_tag "store[extra_settings][cloudflare_zone_id]", t(:cloudflare_zone_id) %><br>
+            <%= text_field_tag "store[extra_settings][cloudflare_zone_id]", @store.extra_settings ? @store.extra_settings[:cloudflare_zone_id] : "", :class => 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div data-hook="shipping_methods">
+        <%= f.field_container :shipping_methods, class: ['form-group'] do %>
+          <%= f.label :shipping_methods, Spree.t(:shipping_methods) %><br />
+          <% @shipping_methods.each do |shipping_method| %>
+            <label class="sub">
+              <%= check_box_tag 'store[shipping_method_ids][]', shipping_method.id, @store.shipping_methods.include?(shipping_method) %>
+            </label> &nbsp;
+            <%= shipping_method.name %>
+            <br>
+          <% end %>
+          <%= hidden_field_tag 'store[shipping_method_ids][]', '' %>
         <% end %>
       </div>
 
@@ -90,25 +214,19 @@
         <% end %>
       </div>
 
-      <div data-hook="shipping_methods">
-        <%= f.field_container :shipping_methods, class: ['form-group'] do %>
-          <%= f.label :shipping_methods, Spree.t(:shipping_methods) %><br />
-          <% @shipping_methods.each do |shipping_method| %>
-            <label class="sub">
-              <%= check_box_tag 'store[shipping_method_ids][]', shipping_method.id, @store.shipping_methods.include?(shipping_method) %>
-            </label> &nbsp;
-            <%= shipping_method.name %>
-            <br>
-          <% end %>
-          <%= hidden_field_tag 'store[shipping_method_ids][]', '' %>
-        <% end %>
-      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= Spree.t(:clear_cache)%></h1>
+        </div>
 
-      <div data-hook="default_currency">
-        <%= f.field_container :default_currency, class: ['form-group'] do %>
-          <%= f.label :default_currency, Spree.t(:default_currency) %>
-          <%= f.text_field :default_currency, class: 'form-control' %>
-        <% end %>
+        <div class="panel-body">
+          <div class="clear-cache-warning alert alert-warning">
+            <%= Spree.t(:clear_cache_warning) %>
+          </div>
+          <div data-hook="general_settings_clear_cache">
+            <%= button Spree.t(:clear_cache), 'ok', 'button', id: "clear_cache" %>
+          </div>
+        </div>
       </div>
     </div>
 

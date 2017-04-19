@@ -1,0 +1,37 @@
+<div class="store-list-wrapper">
+  <% Spree::Store.all.each do |store| %>
+    <%= link_to edit_admin_store_path(store) do %>
+      <div class="store-box">
+        <div class="store-name"><%= store.name %></div>
+        <div class="store-url"><%= store.url %></div>
+        <hr>
+        <ul>
+          <li>
+            <strong><%= store.orders.count %></strong>
+            orders
+          </li>
+          <li>
+            <strong><%= store.products.count %></strong>
+            products
+          </li>
+          <% if store.default %>
+            <li>
+              <strong>default</strong>
+            </li>
+          <% end %>
+          <% if store.requires_authentication %>
+            <li>
+              <strong>requires authentication</strong>
+            </li>
+          <% end %>
+          <li>
+            <%= store.mail_from_address %>
+          </li>
+          <li>
+            "<%= store.code %>"
+          </li>
+        </ul>
+      </div>
+    <% end %>
+  <% end %>
+</div>
