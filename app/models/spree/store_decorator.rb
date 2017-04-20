@@ -21,7 +21,6 @@ module Spree
       convert_options: { all: '-strip -auto-orient' }
 
     after_create :associate_with_products
-    before_create :create_extra_settings
 
     serialize :extra_settings
 
@@ -40,10 +39,5 @@ module Spree
           p.stores << self
         end
       end
-
-      def create_extra_settings
-        self.extra_settings = {}
-      end
-
   end
 end

@@ -13,6 +13,36 @@ class Spree::Admin::StoresController < Spree::Admin::ResourceController
     end
   end
 
+  def create
+    if params["store"]["product_image"]
+      product_image = Spree::Image.where(:alt => params[:store][:code].to_s + "~generic_product_top_image").first
+      product_image.destroy if product_image
+
+      product_image = Spree::Image.create!({:attachment => params["store"]["product_image"], 
+                                            :attachment_file_name => params["store"]["product_image"].original_filename, 
+                                            :alt => params[:store][:code].to_s + "~generic_product_top_image"})
+      params["store"].delete("product_image")
+    end
+
+    invoke_callbacks(:create, :before)
+    @object.attributes = permitted_resource_params
+
+    if @object.save
+      invoke_callbacks(:create, :after)
+      flash[:success] = flash_message_for(@object, :successfully_created)
+      respond_with(@object) do |format|
+        format.html { redirect_to location_after_save }
+        format.js   { render :layout => false }
+      end
+    else
+      invoke_callbacks(:create, :fails)
+      respond_with(@object) do |format|
+        format.html { render action: :new }
+        format.js { render layout: false }
+      end
+    end
+  end
+
   def update
     if params[:remove_product_top_image] && params[:remove_product_top_image] === "true"
       product_image = Spree::Image.where(:alt => @object.code + "~generic_product_top_image").first

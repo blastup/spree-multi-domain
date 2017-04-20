@@ -58,21 +58,13 @@
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h1 class="panel-title"><%= t(:mailchimp_mandrill)%></h1>
+          <h1 class="panel-title"><%= t(:mailchimp_settings)%></h1>
         </div>
 
         <div class="panel-body">
-          <div class="form-group" data-hook="admin_general_setting_mailchimp_api_key">
-            <%= label_tag "store[extra_settings][mailchimp_api_key]", t(:mailchimp_api_key) %><br>
-            <%= text_field_tag "store[extra_settings][mailchimp_api_key]", @store.extra_settings ? @store.extra_settings[:mailchimp_api_key] : "", :class => 'form-control' %>
-          </div>
           <div class="form-group"  data-hook="admin_general_setting_mailchimp_list">
             <%= label_tag "store[extra_settings][mailchimp_list]", t(:mailchimp_list) %><br>
             <%= text_field_tag "store[extra_settings][mailchimp_list]", @store.extra_settings ? @store.extra_settings[:mailchimp_list] : "", :class => 'form-control' %>
-          </div>
-          <div class="form-group"  data-hook="admin_general_setting_mandrill_api_key">
-            <%= label_tag  "store[extra_settings][mandrill_api_key]", t(:mandrill_api_key) %><br>
-            <%= text_field_tag "store[extra_settings][mandrill_api_key]", @store.extra_settings ? @store.extra_settings[:mandrill_api_key] : "", :class => 'form-control' %>
           </div>
         </div>
       </div>
