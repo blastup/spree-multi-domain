@@ -71,6 +71,19 @@
 
       <div class="panel panel-default">
         <div class="panel-heading">
+          <h1 class="panel-title"><%= t(:google_settings)%></h1>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-group"  data-hook="admin_general_setting_google_client_id">
+            <%= label_tag "store[extra_settings][google_client_id]", "google client id" %><br>
+            <%= text_field_tag "store[extra_settings][google_client_id]", @store.extra_settings ? @store.extra_settings[:google_client_id] : "", :class => 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
           <h1 class="panel-title"><%= t(:ui_settings)%></h1>
         </div>
 
@@ -169,6 +182,19 @@
         </div>
       </div>
 
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= t(:sentry_settings)%></h1>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-group"  data-hook="admin_general_setting_sentry_key">
+            <%= label_tag "store[extra_settings][sentry_key]", t(:sentry_key) %><br>
+            <%= text_field_tag "store[extra_settings][sentry_key]", @store.extra_settings ? @store.extra_settings[:sentry_key] : "", :class => 'form-control' %>
+          </div>
+        </div>
+      </div>
+
       <div data-hook="shipping_methods">
         <%= f.field_container :shipping_methods, class: ['form-group'] do %>
           <%= f.label :shipping_methods, Spree.t(:shipping_methods) %><br />
@@ -198,7 +224,7 @@
         <% end %>
       </div>
 
-      <div class="panel panel-default">
+      <div class="panel panel-default" style="margin-top: 42px;">
         <div class="panel-heading">
           <h1 class="panel-title"><%= Spree.t(:clear_cache)%></h1>
         </div>
