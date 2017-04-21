@@ -162,14 +162,6 @@
         </div>
 
         <div class="panel-body">
-          <div class="form-group" data-hook="admin_general_setting_cloudflare_email">
-            <%= label_tag "store[extra_settings][cloudflare_email]", t(:cloudflare_email) %><br>
-            <%= text_field_tag "store[extra_settings][cloudflare_email]", @store.extra_settings ? @store.extra_settings[:cloudflare_email] : "", :class => 'form-control' %>
-          </div>
-          <div class="form-group"  data-hook="admin_general_setting_cloudflare_api_key">
-            <%= label_tag "store[extra_settings][cloudflare_api_key]", t(:cloudflare_api_key) %><br>
-            <%= text_field_tag "store[extra_settings][cloudflare_api_key]", @store.extra_settings ? @store.extra_settings[:cloudflare_api_key] : "", :class => 'form-control' %>
-          </div>
           <div class="form-group"  data-hook="admin_general_setting_cloudflare_zone_id">
             <%= label_tag "store[extra_settings][cloudflare_zone_id]", t(:cloudflare_zone_id) %><br>
             <%= text_field_tag "store[extra_settings][cloudflare_zone_id]", @store.extra_settings ? @store.extra_settings[:cloudflare_zone_id] : "", :class => 'form-control' %>
