@@ -6,7 +6,6 @@ Spree::Admin::ProductsController.class_eval do
   def set_stores
     return true if params["product"][:stores] == ""
     @product.stores = Spree::Store.where(id: params["product"][:stores])
-    @product.save
     params[:product].delete(:stores)
   end
 end

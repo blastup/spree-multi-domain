@@ -1,5 +1,5 @@
 Spree::Admin::TaxonomiesController.class_eval do
-  before_action :set_stores, only: [:create, :update]
+  update.before :set_stores
 
   private
 

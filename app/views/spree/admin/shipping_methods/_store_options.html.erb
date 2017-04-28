@@ -1,26 +1,28 @@
-<div class="row">
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h1 class="panel-title">
-          <%= Spree.t(:stores) %>
-        </h1>
-      </div>
+<% if @shipping_method && @shipping_method.id %>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title">
+            <%= Spree.t(:stores) %>
+          </h1>
+        </div>
 
-      <div class="panel-body">
-        <%= f.field_container :stores, :class => ["form-group"] do %>
-          <% shipping_method_stores = @shipping_method.stores.to_a %>
-          <% Spree::Store.all.each do |store| %>
-            <div class="checkbox">
-              <%= label_tag do %>
-                <%= check_box_tag("shipping_method[stores][]", store.id, shipping_method_stores.include?(store)) %>
-                <%= store.name %>
-              <% end %>
-            </div>
+        <div class="panel-body">
+          <%= f.field_container :stores, :class => ["form-group"] do %>
+            <% shipping_method_stores = @shipping_method.stores.to_a %>
+            <% Spree::Store.all.each do |store| %>
+              <div class="checkbox">
+                <%= label_tag do %>
+                  <%= check_box_tag("shipping_method[stores][]", store.id, shipping_method_stores.include?(store)) %>
+                  <%= store.name %>
+                <% end %>
+              </div>
+            <% end %>
+            <%= f.error_message_on :store_id %>
           <% end %>
-          <%= f.error_message_on :store_id %>
-        <% end %>
+        </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>
