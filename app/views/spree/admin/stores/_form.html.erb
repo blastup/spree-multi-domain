@@ -62,9 +62,9 @@
         </div>
 
         <div class="panel-body">
-          <div class="form-group"  data-hook="admin_general_setting_mailchimp_list">
-            <%= label_tag "store[extra_settings][mailchimp_list]", t(:mailchimp_list) %><br>
-            <%= text_field_tag "store[extra_settings][mailchimp_list]", @store.extra_settings ? @store.extra_settings[:mailchimp_list] : "", :class => 'form-control' %>
+          <div class="form-group">
+            <%= label_tag "store[extra_settings][mailchimp_list]", 'Default Mailchimp List' %>
+            <%= select_tag "store[extra_settings][mailchimp_list]",  options_for_select(@mailchimp_lists.collect{ |u| [u[:name], u[:name]]}, :selected=>@store.extra_settings ? @store.extra_settings[:mailchimp_list] : nil)%>
           </div>
         </div>
       </div>

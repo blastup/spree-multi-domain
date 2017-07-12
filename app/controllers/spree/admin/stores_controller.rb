@@ -1,7 +1,13 @@
 class Spree::Admin::StoresController < Spree::Admin::ResourceController
+  include NewslettersParser
+  before_action :set_mailchimp_lists, :only => [:edit, :new]
 
   before_filter :load_payment_methods
   before_filter :load_shipping_methods
+
+  def set_mailchimp_lists
+    @mailchimp_lists = get_mailchimp_lists
+  end
 
   def index
     @stores = @stores.ransack({ name_or_domains_or_code_cont: params[:q] }).result if params[:q]
