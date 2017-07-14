@@ -56,7 +56,7 @@
         </div>
       </div>
 
-      <div class="panel panel-default">
+      <div class="panel panel-default" data-hook="mailchimp_settings">
         <div class="panel-heading">
           <h1 class="panel-title"><%= t(:mailchimp_settings)%></h1>
         </div>
@@ -69,7 +69,7 @@
         </div>
       </div>
 
-      <div class="panel panel-default">
+      <div class="panel panel-default" data-hook="google_settings">
         <div class="panel-heading">
           <h1 class="panel-title"><%= t(:google_settings)%></h1>
         </div>
@@ -82,49 +82,6 @@
         </div>
       </div>
 
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h1 class="panel-title"><%= t(:ui_settings)%></h1>
-        </div>
-
-        <div class="panel-body">
-          <div class="form-group">
-            <%= label_tag "store[extra_settings][header_menu_id]", t(:header_menu) %><br>
-            <%= select_tag "store[extra_settings][header_menu_id]", options_for_select([['No header menu', '', :selected => (@store.extra_settings ? @store.extra_settings[:header_menu_id] : '') == '']] + 
-              Spree::Taxonomy.all.map { |t| [t.name, t.id.to_s, :selected => (@store.extra_settings ? @store.extra_settings[:header_menu_id] : '') == t.id.to_s] }), { :class => "select2", :style => "width: 300px;" } %>
-          </div>
-          <div class="form-group">
-            <%= label_tag "store[extra_settings][footer_menu_id]", t(:footer_menu) %><br>
-            <%= select_tag "store[extra_settings][footer_menu_id]", options_for_select([['No footer menu', '', :selected => (@store.extra_settings ? @store.extra_settings[:footer_menu_id] : '') == '']] + 
-              Spree::Taxonomy.all.map { |t| [t.name, t.id.to_s, :selected => (@store.extra_settings ? @store.extra_settings[:footer_menu_id] : '') == t.id.to_s] }), { :class => "select2", :style => "width: 300px;" } %>
-          </div>
-          <div class="form-group">
-            <%= label_tag "store[extra_settings][login_slider_location_id]", t(:login_slider_location) %><br>
-            <%= select_tag "store[extra_settings][login_slider_location_id]", options_for_select([['No slider', '', :selected => (@store.extra_settings ? @store.extra_settings[:login_slider_location_id] : '') == '']] + 
-              Spree::SlideLocation.all.map { |p| [p.name, p.id.to_s, :selected => (@store.extra_settings ? @store.extra_settings[:login_slider_location_id] : '') == p.id.to_s] }), { :class => "select2", :style => "width: 300px;" } %>
-          </div>
-          <div class="form-group" data-hook="admin_general_setting_product_image">
-            <label for="product_image">Products List Top Image</label><br>
-            <%= file_field_tag "store[product_image]" %>
-          </div>
-          <% product_image = (@store && @store.code) ? Spree::Image.where(:alt => @store.code + "~generic_product_top_image").first : nil  %>
-          <% if product_image %>
-            <div class="product-top-image-wrapper">
-              <%= image_tag product_image.attachment.url(:small), {:id => "product_top_image"} %>
-
-              <%= hidden_field_tag "remove_product_top_image", "" %>
-              <%= button Spree.t('actions.remove'), 'remove', "button", {:class => "product-top-image-remove"} %>
-            </div>
-          <% end %>
-          <div class="form-group" data-hook="admin_general_setting_product_header_theme">
-            <label for="product_header_theme">Products List Header Theme</label><br>
-            <input type="radio" value="colored" <%= ((@store.extra_settings && @store.extra_settings[:products_header_theme] == "colored") || (@store.extra_settings && @store.extra_settings[:products_header_theme] == "")) ? "checked" : "" %> name="store[extra_settings][products_header_theme]" id="products_theme_colored">
-            <label for="products_theme_colored">Colored</label><br>
-            <input type="radio" value="transparent" <%= (@store.extra_settings && @store.extra_settings[:products_header_theme] == "transparent") ? "checked" : "" %> name="store[extra_settings][products_header_theme]" id="products_theme_transparent">
-            <label for="products_theme_transparent">Transparent</label>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div data-hook="admin_store_form_fields_right" class="col-md-6">
@@ -235,6 +192,117 @@
           </div>
           <div data-hook="general_settings_clear_cache">
             <%= button Spree.t(:clear_cache), 'ok', 'button', id: "clear_cache" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-12">
+
+      <div class="panel panel-default" data-hook="ui_settings">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= t(:ui_settings)%></h1>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-group">
+            <%= label_tag "store[extra_settings][header_menu_id]", t(:header_menu) %><br>
+            <%= select_tag "store[extra_settings][header_menu_id]", options_for_select([['No header menu', '', :selected => (@store.extra_settings ? @store.extra_settings[:header_menu_id] : '') == '']] + 
+              Spree::Taxonomy.all.map { |t| [t.name, t.id.to_s, :selected => (@store.extra_settings ? @store.extra_settings[:header_menu_id] : '') == t.id.to_s] }), { :class => "select2", :style => "width: 300px;" } %>
+          </div>
+          <div class="form-group">
+            <%= label_tag "store[extra_settings][footer_menu_id]", t(:footer_menu) %><br>
+            <%= select_tag "store[extra_settings][footer_menu_id]", options_for_select([['No footer menu', '', :selected => (@store.extra_settings ? @store.extra_settings[:footer_menu_id] : '') == '']] + 
+              Spree::Taxonomy.all.map { |t| [t.name, t.id.to_s, :selected => (@store.extra_settings ? @store.extra_settings[:footer_menu_id] : '') == t.id.to_s] }), { :class => "select2", :style => "width: 300px;" } %>
+          </div>
+          <div class="form-group">
+            <%= label_tag "store[extra_settings][login_slider_location_id]", t(:login_slider_location) %><br>
+            <%= select_tag "store[extra_settings][login_slider_location_id]", options_for_select([['No slider', '', :selected => (@store.extra_settings ? @store.extra_settings[:login_slider_location_id] : '') == '']] + 
+              Spree::SlideLocation.all.map { |p| [p.name, p.id.to_s, :selected => (@store.extra_settings ? @store.extra_settings[:login_slider_location_id] : '') == p.id.to_s] }), { :class => "select2", :style => "width: 300px;" } %>
+          </div>
+
+          <div class="panel panel-default" data-hook="product_page_settings">
+            <div class="panel-heading">
+              <h1 class="panel-title"><%= t(:products_list_page_settings)%></h1>
+            </div>
+
+            <div class="panel-body">
+              <div class="form-group" data-hook="admin_general_setting_product_image">
+                <label for="product_image">Products List Top Image</label><br>
+                <%= file_field_tag "store[product_image]" %>
+              </div>
+              <% product_image = (@store && @store.code) ? Spree::Image.where(:alt => @store.code + "~generic_product_top_image").first : nil  %>
+              <% if product_image %>
+                <div class="product-top-image-wrapper">
+                  <%= image_tag product_image.attachment.url(:small), {:id => "product_top_image"} %>
+
+                  <%= hidden_field_tag "remove_product_top_image", "" %>
+                  <%= button Spree.t('actions.remove'), 'remove', "button", {:class => "product-top-image-remove"} %>
+                </div>
+              <% end %>
+              <div class="form-group" data-hook="admin_general_setting_product_header_theme">
+                <label for="product_header_theme">Products List Header Theme</label><br>
+                <input type="radio" value="colored" <%= ((@store.extra_settings && @store.extra_settings[:products_header_theme] == "colored") || (@store.extra_settings && @store.extra_settings[:products_header_theme] == "")) ? "checked" : "" %> name="store[extra_settings][products_header_theme]" id="products_theme_colored">
+                <label for="products_theme_colored">Colored</label><br>
+                <input type="radio" value="transparent" <%= (@store.extra_settings && @store.extra_settings[:products_header_theme] == "transparent") ? "checked" : "" %> name="store[extra_settings][products_header_theme]" id="products_theme_transparent">
+                <label for="products_theme_transparent">Transparent</label>
+              </div>
+              <div class="form-group" data-hook="seo_title">
+                  <%= label_tag "store[extra_settings][product_page_settings][seo_title]", 'Seo Title' %>
+                  <%= text_field_tag "store[extra_settings][product_page_settings][seo_title]", @store.extra_settings[:product_page_settings][:seo_title], class: 'form-control' %>
+              </div>
+
+              <div class="form-group" data-hook="meta_keywords">
+                  <%= label_tag "store[extra_settings][product_page_settings][meta_keywords]", 'Meta Keywords' %>
+                  <%= text_field_tag "store[extra_settings][product_page_settings][meta_keywords]", @store.extra_settings && @store.extra_settings[:product_page_settings][:meta_keywords], class: 'form-control' %>
+              </div>
+
+              <div class="form-group" data-hook="meta_description">
+                  <%= label_tag "store[extra_settings][product_page_settings][meta_description]", 'Meta Description' %>
+                  <%= text_field_tag "store[extra_settings][product_page_settings][meta_description]", @store.extra_settings && @store.extra_settings[:product_page_settings][:meta_description], class: 'form-control' %>
+              </div>
+
+              <div class="form-group" data-hook="ogg_image">
+                  <%= label_tag :ogg_product_list_image, 'OGG Image' %><br />
+                  <%= media_select_field(f, :ogg_product_list_image, :ogg_product_list_image, :ogg_product_list_image, true ) %>
+              </div>
+
+              <div class="panel panel-default" data-hook="product_page_settings">
+                <div class="panel-heading">
+                  <h1 class="panel-title"><%= t(:facets)%></h1>
+                </div>
+                <div class="panel-body">
+                  <div class="form-group" data-hook="admin_general_setting_product_facets_type">
+                    <label> Style </label>
+                    <br>
+                    <label for="facet_dropdown">Dropdown</label>
+                    <input type="radio" value="dropdown" <%= (@store.extra_settings && @store.extra_settings[:product_page_settings][:facets_style] == "dropdown" ||  @store.extra_settings[:product_page_settings][:facets_style].blank?) ? "checked" : "" %> name="store[extra_settings][product_page_settings][facets_style]" id="facet_dropdown">
+                    <br>
+
+                    <label for="facet_left">Left</label>
+                    <input type="radio" value="left" <%= (@store.extra_settings && @store.extra_settings[:product_page_settings][:facets_style] == "left") ? "checked" : "" %> name="store[extra_settings][product_page_settings][facets_style]" id="facet_left">
+                    <br>
+
+                    <label for="facet_none">None</label>
+                    <input type="radio" value="none" <%= (@store.extra_settings && @store.extra_settings[:product_page_settings][:facets_style] == "none") ? "checked" : "" %> name="store[extra_settings][product_page_settings][facets_style]" id="facet_none">
+                    <br>
+
+                  </div>
+                  <br>
+
+                  <div class="form-group" data-hook="admin_general_setting_product_facets_type">
+                    <label>Show empty filters </label>
+                    <br>
+                    <label for="facet_empty_false">False</label>
+                    <input type="radio" value="false" <%= (@store.extra_settings && @store.extra_settings[:product_page_settings][:facets_show_empty] == "false" || @store.extra_settings[:product_page_settings][:facets_show_empty].blank?) ? "checked" : "" %> name="store[extra_settings][product_page_settings][facets_show_empty]" id="facet_empty_false">
+                    <br>
+
+                    <label for="facet_empty_true">True</label>
+                    <input type="radio" value="true" <%= (@store.extra_settings && @store.extra_settings[:product_page_settings][:facets_show_empty] == "true") ? "checked" : "" %> name="store[extra_settings][product_page_settings][facets_show_empty]" id="facet_empty_true">
+                    <br>
+                  </div>
+                </div>
+            </div>
           </div>
         </div>
       </div>
