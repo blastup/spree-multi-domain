@@ -196,7 +196,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="col-md-12">
 
       <div class="panel panel-default" data-hook="ui_settings">
@@ -207,17 +207,17 @@
         <div class="panel-body">
           <div class="form-group">
             <%= label_tag "store[extra_settings][header_menu_id]", t(:header_menu) %><br>
-            <%= select_tag "store[extra_settings][header_menu_id]", options_for_select([['No header menu', '', :selected => (@store.extra_settings ? @store.extra_settings[:header_menu_id] : '') == '']] + 
+            <%= select_tag "store[extra_settings][header_menu_id]", options_for_select([['No header menu', '', :selected => (@store.extra_settings ? @store.extra_settings[:header_menu_id] : '') == '']] +
               Spree::Taxonomy.all.map { |t| [t.name, t.id.to_s, :selected => (@store.extra_settings ? @store.extra_settings[:header_menu_id] : '') == t.id.to_s] }), { :class => "select2", :style => "width: 300px;" } %>
           </div>
           <div class="form-group">
             <%= label_tag "store[extra_settings][footer_menu_id]", t(:footer_menu) %><br>
-            <%= select_tag "store[extra_settings][footer_menu_id]", options_for_select([['No footer menu', '', :selected => (@store.extra_settings ? @store.extra_settings[:footer_menu_id] : '') == '']] + 
+            <%= select_tag "store[extra_settings][footer_menu_id]", options_for_select([['No footer menu', '', :selected => (@store.extra_settings ? @store.extra_settings[:footer_menu_id] : '') == '']] +
               Spree::Taxonomy.all.map { |t| [t.name, t.id.to_s, :selected => (@store.extra_settings ? @store.extra_settings[:footer_menu_id] : '') == t.id.to_s] }), { :class => "select2", :style => "width: 300px;" } %>
           </div>
           <div class="form-group">
             <%= label_tag "store[extra_settings][login_slider_location_id]", t(:login_slider_location) %><br>
-            <%= select_tag "store[extra_settings][login_slider_location_id]", options_for_select([['No slider', '', :selected => (@store.extra_settings ? @store.extra_settings[:login_slider_location_id] : '') == '']] + 
+            <%= select_tag "store[extra_settings][login_slider_location_id]", options_for_select([['No slider', '', :selected => (@store.extra_settings ? @store.extra_settings[:login_slider_location_id] : '') == '']] +
               Spree::SlideLocation.all.map { |p| [p.name, p.id.to_s, :selected => (@store.extra_settings ? @store.extra_settings[:login_slider_location_id] : '') == p.id.to_s] }), { :class => "select2", :style => "width: 300px;" } %>
           </div>
 
@@ -248,24 +248,26 @@
                 <label for="products_theme_transparent">Transparent</label>
               </div>
               <div class="form-group" data-hook="seo_title">
-                  <%= label_tag "store[extra_settings][product_page_settings][seo_title]", 'Seo Title' %>
-                  <%= text_field_tag "store[extra_settings][product_page_settings][seo_title]", @store.extra_settings[:product_page_settings][:seo_title], class: 'form-control' %>
+                  <%= label_tag "store[extra_settings][seo_title]", 'Seo Title' %>
+                  <%= text_field_tag "store[extra_settings][seo_title]", @store.extra_settings[:seo_title], class: 'form-control' %>
               </div>
 
               <div class="form-group" data-hook="meta_keywords">
-                  <%= label_tag "store[extra_settings][product_page_settings][meta_keywords]", 'Meta Keywords' %>
-                  <%= text_field_tag "store[extra_settings][product_page_settings][meta_keywords]", @store.extra_settings && @store.extra_settings[:product_page_settings][:meta_keywords], class: 'form-control' %>
+                  <%= label_tag "store[extra_settings][meta_keywords]", 'Meta Keywords' %>
+                  <%= text_field_tag "store[extra_settings][meta_keywords]", @store.extra_settings && @store.extra_settings[:meta_keywords], class: 'form-control' %>
               </div>
 
               <div class="form-group" data-hook="meta_description">
-                  <%= label_tag "store[extra_settings][product_page_settings][meta_description]", 'Meta Description' %>
-                  <%= text_field_tag "store[extra_settings][product_page_settings][meta_description]", @store.extra_settings && @store.extra_settings[:product_page_settings][:meta_description], class: 'form-control' %>
+                  <%= label_tag "store[extra_settings][meta_description]", 'Meta Description' %>
+                  <%= text_field_tag "store[extra_settings][meta_description]", @store.extra_settings && @store.extra_settings[:meta_description], class: 'form-control' %>
               </div>
 
-              <div class="form-group" data-hook="ogg_image">
-                  <%= label_tag :ogg_product_list_image, 'OGG Image' %><br />
-                  <%= media_select_field(f, :ogg_product_list_image, :ogg_product_list_image, :ogg_product_list_image, true ) %>
-              </div>
+              <% if false %>
+                <div class="form-group" data-hook="ogg_image">
+                    <%= label_tag :ogg_product_list_image, 'OGG Image' %><br />
+                    <%= media_select_field(f, :ogg_product_list_image, :ogg_product_list_image, :ogg_product_list_image, true ) %>
+                </div>
+              <% end %>
 
               <div class="panel panel-default" data-hook="product_page_settings">
                 <div class="panel-heading">
@@ -276,15 +278,15 @@
                     <label> Style </label>
                     <br>
                     <label for="facet_dropdown">Dropdown</label>
-                    <input type="radio" value="dropdown" <%= (@store.extra_settings && @store.extra_settings[:product_page_settings][:facets_style] == "dropdown" ||  @store.extra_settings[:product_page_settings][:facets_style].blank?) ? "checked" : "" %> name="store[extra_settings][product_page_settings][facets_style]" id="facet_dropdown">
+                    <input type="radio" value="dropdown" <%= (@store.extra_settings && @store.extra_settings[:facets_style] == "dropdown" ||  @store.extra_settings[:facets_style].blank?) ? "checked" : "" %> name="store[extra_settings][facets_style]" id="facet_dropdown">
                     <br>
 
                     <label for="facet_left">Left</label>
-                    <input type="radio" value="left" <%= (@store.extra_settings && @store.extra_settings[:product_page_settings][:facets_style] == "left") ? "checked" : "" %> name="store[extra_settings][product_page_settings][facets_style]" id="facet_left">
+                    <input type="radio" value="left" <%= (@store.extra_settings && @store.extra_settings[:facets_style] == "left") ? "checked" : "" %> name="store[extra_settings][facets_style]" id="facet_left">
                     <br>
 
                     <label for="facet_none">None</label>
-                    <input type="radio" value="none" <%= (@store.extra_settings && @store.extra_settings[:product_page_settings][:facets_style] == "none") ? "checked" : "" %> name="store[extra_settings][product_page_settings][facets_style]" id="facet_none">
+                    <input type="radio" value="none" <%= (@store.extra_settings && @store.extra_settings[:facets_style] == "none") ? "checked" : "" %> name="store[extra_settings][facets_style]" id="facet_none">
                     <br>
 
                   </div>
@@ -294,11 +296,11 @@
                     <label>Show empty filters </label>
                     <br>
                     <label for="facet_empty_false">False</label>
-                    <input type="radio" value="false" <%= (@store.extra_settings && @store.extra_settings[:product_page_settings][:facets_show_empty] == "false" || @store.extra_settings[:product_page_settings][:facets_show_empty].blank?) ? "checked" : "" %> name="store[extra_settings][product_page_settings][facets_show_empty]" id="facet_empty_false">
+                    <input type="radio" value="false" <%= (@store.extra_settings && @store.extra_settings[:facets_show_empty] == "false" || @store.extra_settings[:facets_show_empty].blank?) ? "checked" : "" %> name="store[extra_settings][product_page_settings][facets_show_empty]" id="facet_empty_false">
                     <br>
 
                     <label for="facet_empty_true">True</label>
-                    <input type="radio" value="true" <%= (@store.extra_settings && @store.extra_settings[:product_page_settings][:facets_show_empty] == "true") ? "checked" : "" %> name="store[extra_settings][product_page_settings][facets_show_empty]" id="facet_empty_true">
+                    <input type="radio" value="true" <%= (@store.extra_settings && @store.extra_settings[:facets_show_empty] == "true") ? "checked" : "" %> name="store[extra_settings][facets_show_empty]" id="facet_empty_true">
                     <br>
                   </div>
                 </div>
