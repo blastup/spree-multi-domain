@@ -82,6 +82,26 @@
         </div>
       </div>
 
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= "3PL Amsterdam FTP" %></h1>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-group"  data-hook="admin_general_setting_ftp_3pl_server">
+            <%= label_tag "store[extra_settings][ftp_3pl_server]", t(:server) %><br>
+            <%= text_field_tag "store[extra_settings][ftp_3pl_server]", @store.extra_settings ? @store.extra_settings[:ftp_3pl_server] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_ftp_3pl_username">
+            <%= label_tag "store[extra_settings][ftp_3pl_username]", t(:username) %><br>
+            <%= text_field_tag "store[extra_settings][ftp_3pl_username]", @store.extra_settings ? @store.extra_settings[:ftp_3pl_username] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_ftp_3pl_password">
+            <%= label_tag "store[extra_settings][ftp_3pl_password]", t(:password) %><br>
+            <%= password_field_tag "store[extra_settings][ftp_3pl_password]", @store.extra_settings ? @store.extra_settings[:ftp_3pl_password] : "", :class => 'form-control' %>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div data-hook="admin_store_form_fields_right" class="col-md-6">
@@ -152,6 +172,21 @@
         </div>
       </div>
 
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= Spree.t(:clear_cache)%></h1>
+        </div>
+
+        <div class="panel-body">
+          <div class="clear-cache-warning alert alert-warning">
+            <%= Spree.t(:clear_cache_warning) %>
+          </div>
+          <div data-hook="general_settings_clear_cache">
+            <%= button Spree.t(:clear_cache), 'ok', 'button', id: "clear_cache" %>
+          </div>
+        </div>
+      </div>
+
       <div data-hook="shipping_methods">
         <%= f.field_container :shipping_methods, class: ['form-group'] do %>
           <%= f.label :shipping_methods, Spree.t(:shipping_methods) %><br />
@@ -179,21 +214,6 @@
           <% end %>
           <%= hidden_field_tag 'store[payment_method_ids][]', '' %>
         <% end %>
-      </div>
-
-      <div class="panel panel-default" style="margin-top: 42px;">
-        <div class="panel-heading">
-          <h1 class="panel-title"><%= Spree.t(:clear_cache)%></h1>
-        </div>
-
-        <div class="panel-body">
-          <div class="clear-cache-warning alert alert-warning">
-            <%= Spree.t(:clear_cache_warning) %>
-          </div>
-          <div data-hook="general_settings_clear_cache">
-            <%= button Spree.t(:clear_cache), 'ok', 'button', id: "clear_cache" %>
-          </div>
-        </div>
       </div>
     </div>
 
