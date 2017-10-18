@@ -1,6 +1,6 @@
 class Spree::Admin::StoresController < Spree::Admin::ResourceController
   include NewslettersParser
-  before_action :set_mailchimp_lists, :only => [:edit, :new]
+  before_action :set_mailchimp_lists, :only => [:edit, :new, :create]
 
   before_filter :load_payment_methods
   before_filter :load_shipping_methods
@@ -20,12 +20,14 @@ class Spree::Admin::StoresController < Spree::Admin::ResourceController
   end
 
   def create
+    params[:store][:extra_settings][:mailchimp_list] = find_list_name(params[:store][:extra_settings][:mailchimp_list_id])
+
     if params["store"]["product_image"]
       product_image = Spree::Image.where(:alt => params[:store][:code].to_s + "~generic_product_top_image").first
       product_image.destroy if product_image
 
-      product_image = Spree::Image.create!({:attachment => params["store"]["product_image"], 
-                                            :attachment_file_name => params["store"]["product_image"].original_filename, 
+      product_image = Spree::Image.create!({:attachment => params["store"]["product_image"],
+                                            :attachment_file_name => params["store"]["product_image"].original_filename,
                                             :alt => params[:store][:code].to_s + "~generic_product_top_image"})
       params["store"].delete("product_image")
     end
@@ -50,6 +52,8 @@ class Spree::Admin::StoresController < Spree::Admin::ResourceController
   end
 
   def update
+    @object.extra_settings[:mailchimp_list] = find_list_name(params[:store][:extra_settings][:mailchimp_list_id])
+
     if params[:remove_product_top_image] && params[:remove_product_top_image] === "true"
       product_image = Spree::Image.where(:alt => @object.code + "~generic_product_top_image").first
       product_image.destroy if product_image
@@ -59,8 +63,8 @@ class Spree::Admin::StoresController < Spree::Admin::ResourceController
       product_image = Spree::Image.where(:alt => @object.code + "~generic_product_top_image").first
       product_image.destroy if product_image
 
-      product_image = Spree::Image.create!({:attachment => params["store"]["product_image"], 
-                                            :attachment_file_name => params["store"]["product_image"].original_filename, 
+      product_image = Spree::Image.create!({:attachment => params["store"]["product_image"],
+                                            :attachment_file_name => params["store"]["product_image"].original_filename,
                                             :alt => @object.code + "~generic_product_top_image"})
       params["store"].delete("product_image")
     end
@@ -86,6 +90,12 @@ class Spree::Admin::StoresController < Spree::Admin::ResourceController
   end
 
   private
+    def find_list_name(id)
+      mailchimp_lists = get_mailchimp_lists
+      list = mailchimp_lists.select { |list| list[:id] == id }
+      return list.first[:name]
+    end
+
     def load_payment_methods
       @payment_methods = Spree::PaymentMethod.all
     end
