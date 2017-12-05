@@ -1,5 +1,6 @@
 object @shipment
 cache [I18n.locale, root_object]
+
 attributes *shipment_attributes
 node(:order_id) { |shipment| shipment.order.number }
 node(:stock_location_name) { |shipment| shipment.stock_location.name }
@@ -12,8 +13,7 @@ child :selected_shipping_rate => :selected_shipping_rate do
   extends "spree/api/v1/shipping_rates/show"
 end
 
-child(@object.available_shipping_methods => :shipping_methods) do
-  byebug
+child(@shipment.available_shipping_methods => :shipping_methods) do
   attributes :id, :name
   child :zones => :zones do
     attributes :id, :name, :description
