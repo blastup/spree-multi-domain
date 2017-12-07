@@ -84,6 +84,31 @@
 
       <div class="panel panel-default">
         <div class="panel-heading">
+          <h1 class="panel-title"><%= "WMS Database Settings" %></h1>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-group"  data-hook="admin_general_setting_wms_database_host">
+            <%= label_tag "store[extra_settings][wms_database_host]", t(:host) %><br>
+            <%= text_field_tag "store[extra_settings][wms_database_host]", @store.extra_settings ? @store.extra_settings[:wms_database_host] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_wms_database_username">
+            <%= label_tag "store[extra_settings][wms_database_username]", t(:username) %><br>
+            <%= text_field_tag "store[extra_settings][wms_database_username]", @store.extra_settings ? @store.extra_settings[:wms_database_username] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_wms_database_password">
+            <%= label_tag "store[extra_settings][wms_database_password]", t(:password) %><br>
+            <%= password_field_tag "store[extra_settings][wms_database_password]", @store.extra_settings ? @store.extra_settings[:wms_database_password] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_wms_database">
+            <%= label_tag "store[extra_settings][wms_database]", t(:database) %><br>
+            <%= text_field_tag "store[extra_settings][wms_database]", @store.extra_settings ? @store.extra_settings[:wms_database] : "", :class => 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
           <h1 class="panel-title"><%= "3PL Amsterdam FTP" %></h1>
         </div>
 
@@ -168,6 +193,33 @@
           <div class="form-group"  data-hook="admin_general_setting_sentry_key">
             <%= label_tag "store[extra_settings][sentry_key]", t(:sentry_key) %><br>
             <%= text_field_tag "store[extra_settings][sentry_key]", @store.extra_settings ? @store.extra_settings[:sentry_key] : "", :class => 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= "WMS Image Settings" %></h1>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-group"  data-hook="admin_general_setting_wms_image_shared_folder">
+            <%= label_tag "store[extra_settings][wms_image_shared_folder]", t(:shared_folder) %><br>
+            <%= text_field_tag "store[extra_settings][wms_image_shared_folder]", @store.extra_settings ? @store.extra_settings[:wms_image_shared_folder] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_wms_image_username">
+            <%= label_tag "store[extra_settings][wms_image_username]", t(:username) %><br>
+            <%= text_field_tag "store[extra_settings][wms_image_username]", @store.extra_settings ? @store.extra_settings[:wms_image_username] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_wms_image_password">
+            <%= label_tag "store[extra_settings][wms_image_password]", t(:password) %><br>
+            <%= password_field_tag "store[extra_settings][wms_image_password]", @store.extra_settings ? @store.extra_settings[:wms_image_password] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group">
+            <%= label_tag "", "" %><br>
+          </div>
+          <div class="form-group">
+            <%= label_tag "", "" %><br>
           </div>
         </div>
       </div>
