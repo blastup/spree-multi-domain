@@ -109,7 +109,7 @@
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h1 class="panel-title"><%= "3PL Amsterdam FTP" %></h1>
+          <h1 class="panel-title"><%= "3PL Amsterdam FTP Settings" %></h1>
         </div>
 
         <div class="panel-body">
@@ -126,6 +126,50 @@
             <%= password_field_tag "store[extra_settings][ftp_3pl_password]", @store.extra_settings ? @store.extra_settings[:ftp_3pl_password] : "", :class => 'form-control' %>
           </div>
         </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= Spree.t(:clear_cache)%></h1>
+        </div>
+
+        <div class="panel-body">
+          <div class="clear-cache-warning alert alert-warning">
+            <%= Spree.t(:clear_cache_warning) %>
+          </div>
+          <div data-hook="general_settings_clear_cache">
+            <%= button Spree.t(:clear_cache), 'ok', 'button', id: "clear_cache" %>
+          </div>
+        </div>
+      </div>
+
+      <div data-hook="shipping_methods">
+        <%= f.field_container :shipping_methods, class: ['form-group'] do %>
+          <%= f.label :shipping_methods, Spree.t(:shipping_methods) %><br />
+          <% @shipping_methods.each do |shipping_method| %>
+            <label class="sub">
+              <%= check_box_tag 'store[shipping_method_ids][]', shipping_method.id, @store.shipping_methods.include?(shipping_method) %>
+            </label> &nbsp;
+            <%= shipping_method.name %>
+            <br>
+          <% end %>
+          <%= hidden_field_tag 'store[shipping_method_ids][]', '' %>
+        <% end %>
+      </div>
+
+      <div data-hook="payment_methods">
+        <%= f.field_container :payment_methods, class: ['form-group'] do %>
+          <%= f.label :payment_methods, Spree.t(:payment_methods) %><br />
+          <% @payment_methods.each do |payment_method| %>
+            <label class="sub">
+              <%= check_box_tag 'store[payment_method_ids][]', payment_method.id, @store.payment_methods.include?(payment_method) %>
+            </label> &nbsp;
+            <!-- "#{payment_method.name} (#{payment_method.environment})" -->
+            <%= payment_method.name %>
+            <br>
+          <% end %>
+          <%= hidden_field_tag 'store[payment_method_ids][]', '' %>
+        <% end %>
       </div>
     </div>
 
@@ -161,15 +205,6 @@
           <%= error_message_on :store, :meta_description %>
         <% end %>
       </div>
-
-     <!-- <div data-hook="logo"> -->
-        <%#= image_tag @store.logo %>
-        <%#= f.field_container :logo, class: ['form-group'] do %>
-          <%#= f.label :logo, Spree.t(:logo) %><br />
-          <%#= f.file_field :logo %>
-          <%#= error_message_on :store, :logo %>
-        <%# end %>
-      <!-- </div> -->
 
       <div class="panel panel-default" style="margin-top: 42px;">
         <div class="panel-heading">
@@ -226,46 +261,48 @@
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h1 class="panel-title"><%= Spree.t(:clear_cache)%></h1>
+          <h1 class="panel-title"><%= "Zendesk Settings" %></h1>
         </div>
 
         <div class="panel-body">
-          <div class="clear-cache-warning alert alert-warning">
-            <%= Spree.t(:clear_cache_warning) %>
+          <div class="form-group"  data-hook="admin_general_setting_zendesk_url">
+            <%= label_tag "store[extra_settings][zendesk_url]", t(:url) %><br>
+            <%= text_field_tag "store[extra_settings][zendesk_url]", @store.extra_settings ? @store.extra_settings[:zendesk_url] : "", :class => 'form-control' %>
           </div>
-          <div data-hook="general_settings_clear_cache">
-            <%= button Spree.t(:clear_cache), 'ok', 'button', id: "clear_cache" %>
+          <div class="form-group"  data-hook="admin_general_setting_zendesk_username">
+            <%= label_tag "store[extra_settings][zendesk_username]", t(:username) %><br>
+            <%= text_field_tag "store[extra_settings][zendesk_username]", @store.extra_settings ? @store.extra_settings[:zendesk_username] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_zendesk_token">
+            <%= label_tag "store[extra_settings][zendesk_token]", t(:token) %><br>
+            <%= text_field_tag "store[extra_settings][zendesk_token]", @store.extra_settings ? @store.extra_settings[:zendesk_token] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_zendesk_brand_id">
+            <%= label_tag "store[extra_settings][zendesk_brand_id]", "brand id" %><br>
+            <%= text_field_tag "store[extra_settings][zendesk_brand_id]", @store.extra_settings ? @store.extra_settings[:zendesk_brand_id] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_zendesk_custom_field_procurement">
+            <%= label_tag "store[extra_settings][zendesk_custom_field_procurement]", t(:custom_field_procurement) %><br>
+            <%= text_field_tag "store[extra_settings][zendesk_custom_field_procurement]", @store.extra_settings ? @store.extra_settings[:zendesk_custom_field_procurement] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_zendesk_custom_field_ticket_type">
+            <%= label_tag "store[extra_settings][zendesk_custom_field_ticket_type]", t(:custom_field_ticket_type) %><br>
+            <%= text_field_tag "store[extra_settings][zendesk_custom_field_ticket_type]", @store.extra_settings ? @store.extra_settings[:zendesk_custom_field_ticket_type] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group"  data-hook="admin_general_setting_zendesk_custom_field_edd">
+            <%= label_tag "store[extra_settings][zendesk_custom_field_edd]", t(:custom_field_edd) %><br>
+            <%= text_field_tag "store[extra_settings][zendesk_custom_field_edd]", @store.extra_settings ? @store.extra_settings[:zendesk_custom_field_edd] : "", :class => 'form-control' %>
+          </div>
+          <div class="form-group">
+            <%= label_tag "", "" %><br>
+          </div>
+          <div class="form-group">
+            <%= label_tag "", "" %><br>
+          </div>
+          <div class="form-group">
+            <%= label_tag "", "" %><br>
           </div>
         </div>
-      </div>
-
-      <div data-hook="shipping_methods">
-        <%= f.field_container :shipping_methods, class: ['form-group'] do %>
-          <%= f.label :shipping_methods, Spree.t(:shipping_methods) %><br />
-          <% @shipping_methods.each do |shipping_method| %>
-            <label class="sub">
-              <%= check_box_tag 'store[shipping_method_ids][]', shipping_method.id, @store.shipping_methods.include?(shipping_method) %>
-            </label> &nbsp;
-            <%= shipping_method.name %>
-            <br>
-          <% end %>
-          <%= hidden_field_tag 'store[shipping_method_ids][]', '' %>
-        <% end %>
-      </div>
-
-      <div data-hook="payment_methods">
-        <%= f.field_container :payment_methods, class: ['form-group'] do %>
-          <%= f.label :payment_methods, Spree.t(:payment_methods) %><br />
-          <% @payment_methods.each do |payment_method| %>
-            <label class="sub">
-              <%= check_box_tag 'store[payment_method_ids][]', payment_method.id, @store.payment_methods.include?(payment_method) %>
-            </label> &nbsp;
-            <!-- "#{payment_method.name} (#{payment_method.environment})" -->
-            <%= payment_method.name %>
-            <br>
-          <% end %>
-          <%= hidden_field_tag 'store[payment_method_ids][]', '' %>
-        <% end %>
       </div>
     </div>
 
