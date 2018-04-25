@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  <%= Spree.t(:editing_store) %>
+  <%= Spree.t(:editing_store) + ' - ' + @store.name %>
 <% end %>
 
 <% content_for :page_actions do %>
