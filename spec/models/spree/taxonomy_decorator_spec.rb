@@ -3,10 +3,10 @@ require 'spec_helper'
 describe Spree::Taxonomy do
 
   before(:each) do
-    @store = FactoryGirl.create(:store)
-    @taxonomy = FactoryGirl.create(:taxonomy, store: @store)
+    @store = FactoryBot.create(:store)
+    @taxonomy = FactoryBot.create(:taxonomy, store: @store)
 
-    @taxonomy2 = FactoryGirl.create(:taxonomy)
+    @taxonomy2 = FactoryBot.create(:taxonomy)
   end
 
   it 'correctly finds taxonomy by store' do

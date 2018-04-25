@@ -3,5 +3,6 @@
 source "https://rubygems.org"
 
 gem "spree", "~> 3.1.0"
+gem "spree_multi_currency", github: "spree/spree_multi_currency", branch: "master"
 
-gemspec :path => "../"
+gemspec path: "../"

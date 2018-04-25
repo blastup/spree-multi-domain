@@ -15,6 +15,7 @@
     <col style="width: 220px">
     <col style="width: 15%">
     <col style="width: 15%">
+    <col style="width: 15%">
   </colgroup>
   <thead>
   <th><%= Spree.t(:default) %></th>
@@ -22,6 +23,7 @@
   <th><%= Spree.t(:store_code) %></th>
   <th><%= Spree.t(:send_mails_as) %></th>
   <th><%= Spree.t(:domains) %></th>
+  <th><%= Spree.t(:requires_auth) %></th>
   <th data-hook="admin_stores_index_header_actions" class="actions"></th>
   </thead>
   <tbody>
@@ -33,6 +35,7 @@
       <td><%= store.code %></td>
       <td><%= store.mail_from_address %></td>
       <td><%= store.url %></td>
+      <td><%= store.requires_authentication %></td>
       <td data-hook="admin_stores_index_row_actions" class="actions">
         <%= link_to_edit store, no_text: true %> &nbsp;
         <%= link_to_delete store, no_text: true %>

@@ -3,10 +3,10 @@ require 'spec_helper'
 describe Spree::Order do
 
   before(:each) do
-    @store = FactoryGirl.create(:store)
-    @order = FactoryGirl.create(:order, store: @store)
+    @store = FactoryBot.create(:store)
+    @order = FactoryBot.create(:order, store: @store)
 
-    @order2 = FactoryGirl.create(:order)
+    @order2 = FactoryBot.create(:order)
   end
 
   it 'should correctly find order by store' do

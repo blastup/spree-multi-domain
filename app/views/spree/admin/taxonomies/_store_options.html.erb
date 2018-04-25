@@ -1,0 +1,15 @@
+<% if @taxonomy && @taxonomy.id %>
+  <%= f.field_container :stores, :class => ["form-group"] do %>
+    <%= f.label :stores, Spree.t(:stores) %>
+    <% taxonomy_stores = @taxonomy.stores.to_a %>
+    <% Spree::Store.all.each do |store| %>
+      <div class="checkbox">
+        <%= label_tag do %>
+          <%= check_box_tag("taxonomy[stores][]", store.id, taxonomy_stores.include?(store)) %>
+          <%= store.name %>
+        <% end %>
+      </div>
+    <% end %>
+    <%= f.error_message_on :store_id %>
+  <% end %>
+<% end %>

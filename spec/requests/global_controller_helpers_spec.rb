@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe "Global controller helpers" do
 
-  let!(:store) { FactoryGirl.create :store }
+  let!(:store) { FactoryBot.create :store }
 
   before(:each) do
-    @tracker = FactoryGirl.create :tracker, store: store
+    @tracker = FactoryBot.create :tracker, store: store
     get '/'
   end
 
@@ -29,13 +29,13 @@ describe "Global controller helpers" do
     end
 
     context "when the current store default_currency empty" do
-      let!(:store) { FactoryGirl.create :store, default_currency: '' }
+      let!(:store) { FactoryBot.create :store, default_currency: '' }
 
       it { should == 'USD' }
     end
 
     context "when the current store default_currency is a currency" do
-      let!(:store) { FactoryGirl.create :store, default_currency: 'EUR' }
+      let!(:store) { FactoryBot.create :store, default_currency: 'EUR' }
       it { should == 'EUR' }
     end
 
@@ -48,7 +48,7 @@ describe "Global controller helpers" do
       let!(:aud) { ::Money::Currency.find('AUD') }
       let!(:eur) { ::Money::Currency.find('EUR') }
       let!(:usd) { ::Money::Currency.find('USD') }
-      let!(:store) { FactoryGirl.create :store, default_currency: 'EUR' }
+      let!(:store) { FactoryBot.create :store, default_currency: 'EUR' }
 
       it 'returns supported currencies' do
         controller.stub(:supported_currencies).and_return([aud, eur, usd])
