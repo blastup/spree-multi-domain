@@ -12,8 +12,8 @@ describe Spree::Admin::ProductsController do
 
   describe "on a PUT to :update" do
     before(:each) do
-      @product = FactoryGirl.create(:product)
-      @store = FactoryGirl.create(:store)
+      @product = FactoryBot.create(:product)
+      @store = FactoryBot.create(:store)
     end
 
     describe "when no stores are selected" do
@@ -44,7 +44,7 @@ describe Spree::Admin::ProductsController do
 
     describe "when multiple stores are selected" do
       it "clears stores" do
-        stores = FactoryGirl.create_list(:store, 3)
+        stores = FactoryBot.create_list(:store, 3)
         store_ids = stores.map(&:id)
         spree_put :update,
           id: @product.to_param,
