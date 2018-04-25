@@ -8,7 +8,6 @@ Spree::Admin::ProductsController.class_eval do
     return true if params["product"][:stores] == ""
     @product.stores = Spree::Store.where(id: params["product"][:stores])
     params[:product].delete(:stores)
-  end
     # @product.store_ids = nil unless params[:product].key? :store_ids # => from fork/master
   end
   
